@@ -1,3 +1,4 @@
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 // --- 1. GESTION DE LA NAVIGATION (Placée en haut pour garantir le clic) ---
 window.afficherSection = function(idSection) {
     const sections = document.querySelectorAll('.page-section');
