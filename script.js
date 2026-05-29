@@ -39,7 +39,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// --- 3. COMPRESSION ET ENVOI DES PHOTOS DANS FIRESTORE ---
+// --- 3. GESTION DE LA VISIONNEUSE ---
+const visionneuse = document.getElementById('visionneuse');
+const imgVisionneuse = document.getElementById('img-visionneuse');
+const btnFermerVisionneuse = document.querySelector('.fermer-visionneuse');
+
+if (btnFermerVisionneuse) {
+    btnFermerVisionneuse.addEventListener('click', () => visionneuse.style.display = 'none');
+}
+
+if (visionneuse) {
+    // Ferme la visionneuse si on clique dans le vide (autour de l'image)
+    visionneuse.addEventListener('click', (e) => {
+        if(e.target === visionneuse) visionneuse.style.display = 'none';
+    });
+}
+
+// --- 4. COMPRESSION ET ENVOI MULTIPLE DANS FIRESTORE ---
 const inputPhoto = document.getElementById('input-photo');
 
 function compresserImage(fichier, maxSize = 600) {
@@ -72,22 +88,24 @@ function compresserImage(fichier, maxSize = 600) {
 
 if(inputPhoto) {
     inputPhoto.addEventListener('change', async function(event) {
-        const fichier = event.target.files[0];
-        if (!fichier) return;
+        const fichiers = event.target.files; // Récupère le tableau des fichiers
+        if (fichiers.length === 0) return;
 
         const labelBtn = document.querySelector('label[for="input-photo"]');
         const texteOriginal = labelBtn.innerText;
-        labelBtn.innerText = "Envoi en cours...";
+        labelBtn.innerText = `Envoi de ${fichiers.length} photo(s)...`;
 
         try {
-            const imageBase64 = await compresserImage(fichier);
+            // Boucle pour envoyer toutes les photos sélectionnées
+            for (let i = 0; i < fichiers.length; i++) {
+                const imageBase64 = await compresserImage(fichiers[i]);
+                await addDoc(collection(db, "galerie"), {
+                    image: imageBase64,
+                    date: Date.now() + i // + i pour éviter que deux photos aient la même milliseconde
+                });
+            }
             
-            await addDoc(collection(db, "galerie"), {
-                image: imageBase64,
-                date: Date.now()
-            });
-            
-            labelBtn.innerText = "Photo ajoutée !";
+            labelBtn.innerText = "Photos ajoutées !";
             setTimeout(() => labelBtn.innerText = texteOriginal, 3000);
         } catch (e) {
             console.error("Erreur d'envoi : ", e);
@@ -96,24 +114,56 @@ if(inputPhoto) {
     });
 }
 
-// --- 4. AFFICHAGE DES PHOTOS (TEMPS RÉEL) ---
+// --- 5. AFFICHAGE ET SUPPRESSION DES PHOTOS (TEMPS RÉEL) ---
 const conteneurPhotos = document.getElementById('conteneur-photos');
 if(conteneurPhotos) {
     const requeteGalerie = query(collection(db, "galerie"), orderBy("date", "desc"));
 
     onSnapshot(requeteGalerie, (snapshot) => {
         conteneurPhotos.innerHTML = ""; 
-        snapshot.forEach((doc) => {
-            const data = doc.data();
+        snapshot.forEach((documentFirebase) => {
+            const data = documentFirebase.data();
+            const idPhoto = documentFirebase.id; // L'identifiant unique Firebase de la photo
+
+            // Création du bloc conteneur
+            const divWrapper = document.createElement('div');
+            divWrapper.classList.add('conteneur-photo');
+
+            // Création de l'image
             const img = document.createElement('img');
             img.src = data.image;
             img.classList.add('img-galerie');
-            conteneurPhotos.appendChild(img);
+            
+            // Clic sur l'image pour l'ouvrir en grand
+            img.addEventListener('click', () => {
+                imgVisionneuse.src = data.image;
+                visionneuse.style.display = 'flex';
+            });
+
+            // Création du bouton de suppression
+            const btnSupprimer = document.createElement('button');
+            btnSupprimer.classList.add('btn-supprimer');
+            btnSupprimer.innerHTML = '&times;'; // Symbole "X"
+            btnSupprimer.title = "Supprimer cette photo";
+
+            // Clic sur le bouton de suppression
+            btnSupprimer.addEventListener('click', async (e) => {
+                e.stopPropagation(); // Empêche l'ouverture de la visionneuse quand on clique sur supprimer
+                const confirmation = confirm("Veux-tu vraiment supprimer cette photo ?");
+                if (confirmation) {
+                    await deleteDoc(doc(db, "galerie", idPhoto)); // Suppression via l'ID
+                }
+            });
+
+            // Assemblage
+            divWrapper.appendChild(img);
+            divWrapper.appendChild(btnSupprimer);
+            conteneurPhotos.appendChild(divWrapper);
         });
     });
 }
 
-// --- 5. GESTION ET AFFICHAGE DES MOTS DOUX (TEMPS RÉEL) ---
+// --- 6. GESTION ET AFFICHAGE DES MOTS DOUX ---
 const formMessage = document.getElementById('form-message');
 const listeMessages = document.getElementById('liste-messages');
 
@@ -146,8 +196,8 @@ if(listeMessages) {
 
     onSnapshot(requeteMessages, (snapshot) => {
         listeMessages.innerHTML = ""; 
-        snapshot.forEach((doc) => {
-            const data = doc.data();
+        snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
             const div = document.createElement('div');
             div.classList.add('message-carte');
             div.innerHTML = `
