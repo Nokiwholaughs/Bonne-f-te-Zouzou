@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour toi, Zouzou</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="script.js" defer></script>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><button onclick="afficherSection('accueil')" class="nav-btn active" id="btn-accueil">Accueil</button></li>
+            <li><button onclick="afficherSection('galerie')" class="nav-btn" id="btn-galerie">Galerie Photo</button></li>
+            <li><button onclick="afficherSection('mots-doux')" class="nav-btn" id="btn-mots-doux">Mots Doux</button></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="accueil" class="page-section active">
+            <h1>Joyeuse Fête des Mères, Zouzou</h1>
+            <div class="discours">
+                <p>Ma chère Nathalie,</p>
+                <p>Pour tout le monde tu es Nathalie, mais pour moi, tu seras toujours Zouzou. En cette journée un peu spéciale, je voulais marquer le coup avec quelque chose qui reste, un espace rien qu'à nous pour rassembler nos plus beaux souvenirs.</p>
+                <p>Merci pour ton soutien infaillible, ta douceur, et pour tout ce que tu m'apportes au quotidien. Ce petit site est une façon de te dire à quel point tu comptes pour moi, aujourd'hui et tous les autres jours de l'année.</p>
+                <p>Je t'aime très fort.</p>
+                <p class="signature">- Teddy</p>
+            </div>
+            
+            <div class="photos-accueil">
+                <img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Fleurs roses" class="img-fixe">
+                <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Bouquet élégant" class="img-fixe">
+            </div>
+        </section>
+
+        <section id="galerie" class="page-section" style="display: none;">
+            <h2>Notre Boîte à Souvenirs</h2>
+            <p>Ajoute tes meilleures photos ici !</p>
+            
+            <div class="upload-zone">
+                <input type="file" id="input-photo" accept="image/*" style="display: none;">
+                <label for="input-photo" class="action-btn">Ajouter une photo</label>
+            </div>
+
+            <div class="grille-photos" id="conteneur-photos">
+                </div>
+        </section>
+
+        <section id="mots-doux" class="page-section" style="display: none;">
+            <h2>Le Mur des Mots Doux</h2>
+            <p>Un petit espace pour laisser un message...</p>
+
+            <form id="form-message" class="formulaire-mots">
+                <input type="text" id="nom-expediteur" placeholder="Ton prénom" required>
+                <textarea id="texte-message" rows="4" placeholder="Ton petit mot doux pour Zouzou..." required></textarea>
+                <button type="submit" class="action-btn">Publier le message</button>
+            </form>
+
+            <div id="liste-messages" class="mur-messages">
+                </div>
+        </section>
+    </main>
+
+</body>
+</html>

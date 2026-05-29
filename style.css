@@ -1,0 +1,196 @@
+:root {
+    --couleur-fond: #fffafb; 
+    --couleur-texte: #4a3b3e; 
+    --couleur-primaire: #d08c9f; 
+    --couleur-secondaire: #fce4ec; 
+    --blanc: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--couleur-fond);
+    color: var(--couleur-texte);
+    line-height: 1.7;
+    font-weight: 300;
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--couleur-primaire);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+nav {
+    background-color: var(--blanc);
+    box-shadow: 0 1px 15px rgba(208, 140, 159, 0.1); 
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--couleur-texte);
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: 0.3s ease;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    color: var(--couleur-primaire);
+    border-bottom: 1px solid var(--couleur-primaire);
+}
+
+main {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.action-btn {
+    display: inline-block;
+    background-color: var(--couleur-primaire);
+    color: var(--blanc);
+    border: none;
+    padding: 12px 25px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 30px; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(208, 140, 159, 0.2);
+}
+
+.action-btn:hover {
+    background-color: #b57386;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(208, 140, 159, 0.3);
+}
+
+.discours {
+    background-color: var(--blanc);
+    padding: 40px;
+    border-radius: 8px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    margin-bottom: 40px;
+    text-align: left;
+    font-size: 1.1rem;
+    border-top: 3px solid var(--couleur-secondaire);
+}
+
+.signature {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--couleur-primaire);
+    text-align: right;
+    margin-top: 20px;
+}
+
+.photos-accueil {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.img-fixe {
+    width: 100%;
+    max-width: 380px;
+    border-radius: 4px; 
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.upload-zone {
+    margin: 20px 0 40px 0;
+    padding: 40px;
+    background: transparent;
+    border-radius: 8px;
+    border: 1px dashed var(--couleur-primaire);
+}
+
+.grille-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.img-galerie {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    animation: fadeIn 0.6s ease;
+}
+
+.formulaire-mots {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: var(--blanc);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    margin-bottom: 40px;
+}
+
+.formulaire-mots input, .formulaire-mots textarea {
+    padding: 15px;
+    border: 1px solid #f0e6e8;
+    border-radius: 4px;
+    font-family: inherit;
+    background-color: var(--couleur-fond);
+    transition: border-color 0.3s;
+}
+
+.formulaire-mots input:focus, .formulaire-mots textarea:focus {
+    outline: none;
+    border-color: var(--couleur-primaire);
+}
+
+.message-carte {
+    background: var(--blanc);
+    padding: 25px;
+    border-radius: 8px;
+    border-top: 2px solid var(--couleur-secondaire);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    animation: fadeIn 0.5s ease;
+    position: relative;
+    text-align: left;
+}
+
+.message-carte strong {
+    font-family: 'Playfair Display', serif;
+    color: var(--couleur-primaire);
+    font-size: 1.2rem;
+}
+
+.message-carte p {
+    margin: 10px 0 0 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
