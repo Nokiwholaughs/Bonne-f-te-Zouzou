@@ -26,7 +26,6 @@ window.afficherSection = function(idSection) {
 
 // --- 2. INITIALISATION DE FIREBASE ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9eIIkP1h_a0BNFP4zZWY4JM7gPA6Ay7c",
