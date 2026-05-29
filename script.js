@@ -148,10 +148,26 @@ if(conteneurPhotos) {
 
             // Clic sur le bouton de suppression
             btnSupprimer.addEventListener('click', async (e) => {
-                e.stopPropagation(); // Empêche l'ouverture de la visionneuse quand on clique sur supprimer
+                e.stopPropagation(); // Empêche d'ouvrir l'image en grand
+                
                 const confirmation = confirm("Veux-tu vraiment supprimer cette photo ?");
+                
                 if (confirmation) {
-                    await deleteDoc(doc(db, "galerie", idPhoto)); // Suppression via l'ID
+                    // Désactive le bouton le temps que Firebase travaille
+                    btnSupprimer.disabled = true;
+                    btnSupprimer.innerHTML = "..."; 
+
+                    try {
+                        // Ordre de suppression envoyé à Firebase
+                        await deleteDoc(doc(db, "galerie", idPhoto)); 
+                        // Note : pas besoin de toucher au HTML, onSnapshot va automatiquement 
+                        // détecter la suppression et faire disparaître la photo tout seul !
+                    } catch (erreur) {
+                        console.error("Erreur de suppression Firebase : ", erreur);
+                        alert("La suppression a échoué. Appuie sur F12 pour voir l'erreur dans la console.");
+                        btnSupprimer.disabled = false;
+                        btnSupprimer.innerHTML = '&times;';
+                    }
                 }
             });
 
