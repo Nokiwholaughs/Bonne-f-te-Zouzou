@@ -194,3 +194,68 @@ main {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* --- VISIONNEUSE GRAND ÉCRAN --- */
+.visionneuse {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visionneuse img {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.fermer-visionneuse {
+    position: absolute;
+    top: 20px; right: 30px;
+    color: var(--blanc);
+    font-size: 45px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.fermer-visionneuse:hover {
+    color: var(--couleur-primaire);
+}
+
+/* --- BOUTON DE SUPPRESSION --- */
+.conteneur-photo {
+    position: relative;
+    cursor: pointer; /* La souris devient une main pour indiquer qu'on peut cliquer */
+}
+
+.btn-supprimer {
+    position: absolute;
+    top: 10px; right: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #d9534f; /* Rouge doux */
+    border: none;
+    border-radius: 50%;
+    width: 35px; height: 35px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    opacity: 0; /* Caché par défaut */
+}
+
+/* Le bouton n'apparaît que lorsqu'on passe la souris sur la photo */
+.conteneur-photo:hover .btn-supprimer {
+    opacity: 1;
+}
+
+.btn-supprimer:hover {
+    background-color: #d9534f;
+    color: white;
+    transform: scale(1.1);
+}
